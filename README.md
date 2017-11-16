@@ -62,9 +62,8 @@ To get started, you should be able to make the robot work without the arm, sonar
 
 Here is the robot I built, still in the workbench and making some adjustments:
 
-![Qbot](https://raw.github.com/mrqbit/Robot/Qbot1.jpg)
-![Qbot2](https://raw.github.com/mrqbit/Robot/Qbot2.jpg)
-
+![QBot](https://github.com/MrQbit/Robot/blob/master/Qbot1.jpg)
+![QBot2](https://github.com/MrQbit/Robot/blob/master/Qbot2.jpg)
 
 ## Wiring The Robot
 ### Sonar
