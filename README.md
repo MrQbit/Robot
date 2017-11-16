@@ -1,26 +1,52 @@
-# Roland_Robot
+# QRobot (Qbot for short)
+This is a development off of Lukas' great work on his robot.  Originally forked by fmacrae to add things like mapping capability, notification APIs and imporved self driving.
+QRobot is a fork in which I will try to add some functionality, once I get the basics running my main interest is offloading vision recognition off to an Nvidia TK1 as well as adding voice recognition.
 
-This will run a simple robot with a webserver on a raspberry PI with the Adafruit Motor Hat.  This is a development off of Lukas' great work on his robot.  Core things we are adding is mapping capability, notification APIs and imporved self driving.
+## Hardware 
 
-## Hardware
+These are the components I have used in my bot exactly:
 
 - Raspberry PI 3
-- Voltage dividers 5V to 3.3V for the echo channels for the sonars, ebay has lots of options for this or build your own from two resistors.
-- If you want the Robot to speak get either a small self powered speaker system that uses 3.5mm jacks or something like a PAM8403 Amplifier Board which can run off your 5V outputs
-- Servo to rotate the camera SG90 or MG90 Mini Servos work fine
-- Get mini breadboards, lots of dupont wires and make sure to order sufficient header pins, including stackable ones for the adafruit hats.
-- nice to haves - camera mount and sonar mounts.  Ebay again is a good source.
-- 16GB (or larger) SIM Card
-- Adafruit Motor Hat (for wheels)
-- Any chassis with DC motors - for example: https://www.amazon.com/Emgreat-Chassis-Encoder-wheels-Battery/dp/B00GLO5SMY/ref=sr_1_2?ie=UTF8&qid=1486959207&sr=8-2&keywords=robot+chassis
-- Adafruit Servo Hat (for arms)
-- HC-SR04 sonars
-- Any stepper motor arm - for example: SainSmart DIY Control Palletizing Robot Arm for the arm (https://www.amazon.com/dp/B0179BTLZ2/ref=twister_B00YTW763Y?_encoding=UTF8&psc=1)
-- Raspberry PI compatible camera - for example: https://www.amazon.com/Raspberry-Pi-Camera-Module-Megapixel/dp/B01ER2SKFS/ref=sr_1_1?s=electronics&ie=UTF8&qid=1486960149&sr=1-1&keywords=raspberry+pi+camera
+- Voltage dividers 5V to 3.3V for the echo channels for the sonars, built from 1K and 2K Ohm resistors.
+- Adafruit amplifier: https://www.amazon.de/gp/product/B00KLBTQPS/ref=oh_aui_detailpage_o01_s00?ie=UTF8&psc=1
+- A couple of small speakers: https://www.amazon.de/gp/product/B072LD4XPS/ref=oh_aui_detailpage_o09_s00?ie=UTF8&psc=1
+- Pan Tilt module for the camera: https://www.adafruit.com/product/1967
+- Get mini breadboards, lots of dupont wires and make sure to order sufficient header pins, including stackable ones for the adafruit hats. (I bought most from Adafruit or Amazon.de)
+- 16GB SD Card
+- A 8GB USB Pen Drive (VERY IMPORTANT to configure it as SWAP before you install Tensorflow, I strongly recommend to keep it in even afterwards) 
+
+- Adafruit Motor Hat (for wheels): https://www.adafruit.com/product/2348
+
+- Chassis with 4 DC motors - https://www.amazon.com/Aideepen-Robot-Chassis-Encoder-Arduino/dp/B01LZU008Y/ref=sr_1_1?ie=UTF8&qid=1510864010&sr=8-1&keywords=4WD+chassis&dpID=51-cmqNXvhL&preST=_SY300_QL70_&dpSrc=srch (I have NOT used the encoders)
+
+- Adafruit Servo Hat (for arms): https://www.adafruit.com/product/2327 (bought directly from Adafruit it is cheaper)
+- HC-SR04 sonars (I bought a set of 5): https://www.amazon.de/gp/product/B01M9CMJ9O/ref=oh_aui_detailpage_o09_s00?ie=UTF8&psc=1
+- Raspberry PI compatible camera - for example: https://www.amazon.de/gp/product/B01ICNT3HC/ref=oh_aui_detailpage_o09_s00?ie=UTF8&psc=1
+- DC Power Adapter to Terminal Block: https://www.amazon.de/gp/product/B00MIKWEBI/ref=oh_aui_detailpage_o05_s01?ie=UTF8&psc=1
+- A set of heatsinks (the camera and raspberry heat up quite a bit : https://www.amazon.de/gp/product/B01N6POSOR/ref=oh_aui_detailpage_o02_s00?ie=UTF8&psc=1
+-A USB Microphone: https://www.amazon.de/gp/product/B00XA01IQC/ref=oh_aui_detailpage_o09_s02?ie=UTF8&psc=1
+
+
+A couple of things more: 
+
+I used some pieces from my children Meccano to make it easier to attach stuff as well as provide some support and structure, most of the pieces were taken from this set (although any set would work I guess) : https://www.amazon.de/gp/product/B019K8J8A0/ref=oh_aui_detailpage_o09_s01?ie=UTF8&psc=1
+
+I had to buy a few of these, use a tester before soldering, my first attempt did not work and it took me a bit to figure out why:
+https://www.amazon.de/gp/product/B00OK6EXIK/ref=oh_aui_detailpage_o06_s00?ie=UTF8&psc=1
+
+Of course I re-used a lot of things I already had, like the 3.5mm cable for Audio, my own soldering station and workbench, tweezers, etc. If you do not have a complete toolset be prepared to invest in some additional tools.
+I have also used batteries I alread had, one of them had a 2.1 mm terminal and is used to power the servo and motor HATs in parallel because the raspberry cannot provide enough current for the motors (and you risk damaging the raspberry), the other one is just a USB battery pack that I use to power the raspberry itself.
+
+I will probably look to add these later:
 - for Whiskers to work you have to connect two bump sensors like this guy made http://www.instructables.com/id/Cheap%2C-Durable%2C-Very-Effective-Robot-Bump-Sensor/#ampshare=http://www.instructables.com/id/Cheap%252C-Durable%252C-Very-Effective-Robot-Bump-Sensor/ and connect via a safe circuit from your 3.3V outputs like this guy shows.  http://www.cl.cam.ac.uk/projects/raspberrypi/tutorials/robot/buttons_and_switches/ Do not miss out the resistors or you may fry your pi.
-Order the stuff well ahead of time, that way you can use the cheaper and slower vendors.  Adafruit is hard to get in the UK quickly at a reasonable price but you can find it.
+
+- an epaper HAT that I originally bought for a Raspberry Zero, or an LCD that I have lying around just to display some basic output about service status every few minutes (like, services are up and running, the IP of the robot, maybe temperature and battery stats would be nice).
+
+
 
 To get started, you should be able to make the robot work without the arm, sonar and servo hat.
+
+
 
 ## Programs
 
@@ -28,26 +54,28 @@ To get started, you should be able to make the robot work without the arm, sonar
 - sonar.py tests sonar wired into GPIO ports
 - wheels.py tests simple DC motor wheels
 - arm.py tests a servo controlled robot arm
-- autonomous.py implements a simple driving algorithm using the wheels and sonal
+- autonomous.py implements a simple driving algorithm using the wheels and sonar
 - inception_server.py runs an image classifying microservice
 - Notification_Test.py tests the Twitter and Gmail integration.
 
 ## Example Robots
 
-Here is the robot I made that uses this software
+Here is the robot I built, still in the workbench and making some adjustments:
 
-![Robots](https://s3.amazonaws.com/websofttechnology/roland.png)
+![Qbot](https://drive.google.com/file/d/12NFcTSBzF2DwSnG-st6hjyw6LB_kh_E9/view?usp=sharing)
+![Qbot2](https://drive.google.com/file/d/1yfbU5OKj3pUeZKs_Uy2ojNpAW4e6hxwR/view?usp=sharing)
+
 
 ## Wiring The Robot
 ### Sonar
 
-If you want to use the default sonar configuation, wire like this:
+If you want to use the default sonar configuation, wire like this (I have used the same wirign fmacrae used)
 
 - Left sonar trigger GPIO pin 23 echo 24
 - Center sonar trigger GPIO pin 17 echo 18
 - Right sonar trigger GPIO pin 22 echo 27
-- Right whisker GPIO pin 21
-- Left whisker GPIO pin 20
+- Right whisker GPIO pin 21 (not in use ATM)
+- Left whisker GPIO pin 20 (not in use ATM)
 
 You can modify the pins by making a robot.conf file.
 
@@ -56,9 +84,13 @@ You can modify the pins by making a robot.conf file.
 You can easily change this but this is what wheels.py expects
 
 - M1 - Front Left
-- M2 - Back Left (optional - leave unwired for 2wd chassis)
-- M3 - Back Right (optional - leave unwired for 2wd chassis)
+- M2 - Back Left 
+- M3 - Back Right
 - M4 - Front Right 
+
+### Camera Pan/Tilt
+
+Connected the servos to the first 2 terminals in the servo HAT
 
 
 ## Installation
@@ -67,7 +99,7 @@ You can easily change this but this is what wheels.py expects
 
 There are a ton of articles on how to do basic setup of a Raspberry PI - one good one is here https://www.howtoforge.com/tutorial/howto-install-raspbian-on-raspberry-pi/
 
-You will need to turn on i2c and optionally the camera
+You will need to turn on i2c and the camera
 
 ```
 raspi-config
@@ -89,11 +121,11 @@ Install this code
 
 ```
 sudo apt-get install git
-git clone https://github.com/fmacrae/Roland_Robot.git
-cd Roland_Robot
+git clone https://github.com/mrqbit/Robot.git
+cd Robot
 ```
 
-Install dependencies
+Install dependencies (I have not update the requirements file and I had to deal with a couple of installations manually)
 
 ```
 sudo pip install -r requirements.txt
@@ -166,21 +198,10 @@ Now a stream of images from the camera should be constantly updating the file at
 
 There is a great project at https://github.com/samjabrahams/tensorflow-on-raspberry-pi that gives instructions on installing tensorflow on the Raspberry PI.  Recently it's gotten much easier, just do
 
-```
-wget https://github.com/samjabrahams/tensorflow-on-raspberry-pi/releases/download/v0.11.0/tensorflow-0.11.0-cp27-none-linux_armv7l.whl
-sudo pip install tensorflow-0.11.0-cp27-none-linux_armv7l.whl
-```
+Follow the instructions here
+https://github.com/samjabrahams/tensorflow-on-raspberry-pi/blob/master/GUIDE.md
 
-Last command took an age... run it and go out or run it just before bed so it can go overnight
- 
-It also doesn’t install tensorflow, just the python interfaces or at least didn’t get a proper tensorflow directory with any of the stuff we need….
- 
-I found running the steps from:
-- https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/makefile#raspberry-pi
-- https://github.com/tensorflow/tensorflow/tree/master/tensorflow/contrib/pi_examples
-
-Install and compile tensorflow correctly for the Pi.  Takes around 3hrs to do
- 
+CHECK that you are using the latest available version that has arm support or the builds will fail.
 
 Now create a symbolic link for the labels in your tensorflow directory to the pi_examples label_image directory
 
